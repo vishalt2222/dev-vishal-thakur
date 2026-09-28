@@ -89,8 +89,8 @@ export function Hero() {
         </div>
         <div className="relative mx-auto h-72 w-72 md:h-80 md:w-80">
           <div className="spin-ring bg-gradient-accent absolute inset-0 rounded-full opacity-80 blur-sm" />
-          <div className="absolute inset-[6px] flex items-center justify-center rounded-full bg-card">
-            <span className="text-gradient font-display text-8xl font-extrabold">VT</span>
+          <div className="absolute inset-[6px] overflow-hidden rounded-full bg-card">
+            <img src={PROFILE_PHOTO} alt={PROFILE.name} className="h-full w-full object-cover" />
           </div>
           <span className="float-slow absolute -left-6 top-10 rounded-xl border bg-card px-3 py-2 font-mono text-xs shadow-elegant">{"</> React"}</span>
           <span className="float-slow absolute -right-4 bottom-12 rounded-xl border bg-card px-3 py-2 font-mono text-xs shadow-elegant [animation-delay:-3s]">AI · ML</span>
