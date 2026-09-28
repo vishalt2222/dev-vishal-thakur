@@ -1,24 +1,42 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { Toaster } from "@/components/ui/sonner";
+import { Nav } from "@/components/portfolio/Nav";
+import { Hero } from "@/components/portfolio/Hero";
+import { About, Contact, Education, Experience, Footer, Journey, ProjectDialog, Projects, Services, Skills } from "@/components/portfolio/Sections";
+import type { Project } from "@/components/portfolio/data";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Vishal Thakur — Software Developer & AI Enthusiast" },
+      { name: "description", content: "Portfolio of Vishal Harichandra Thakur, MCA student and full-stack developer working with MERN, AI, machine learning, PDF processing and OCR." },
+      { property: "og:title", content: "Vishal Thakur — Software Developer & AI Enthusiast" },
+      { property: "og:description", content: "Full-stack, AI and data projects by Vishal Harichandra Thakur." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [project, setProject] = useState<Project | null>(null);
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="min-h-screen">
+      <Nav />
+      <Hero />
+      <About />
+      <Education />
+      <Experience onOpen={setProject} />
+      <Skills />
+      <Services />
+      <Projects onOpen={setProject} />
+      <Journey />
+      <Contact />
+      <Footer />
+      <ProjectDialog project={project} onClose={() => setProject(null)} />
+      <Toaster />
+    </main>
   );
 }
