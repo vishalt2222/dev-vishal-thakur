@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Download, Mail } from "lucide-react";
-import { toast } from "sonner";
+import resumeAsset from "@/assets/resume.asset.json";
 import { PROFILE, ROLES, TECH_HIGHLIGHTS } from "./data";
 import { GithubIcon, LinkedinIcon } from "./ui";
 import profileAsset from "@/assets/profile.asset.json";
@@ -60,9 +60,9 @@ export function Hero() {
             <a href="#projects" className="bg-gradient-accent shadow-elegant inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5">
               View My Projects <ArrowRight className="h-4 w-4" />
             </a>
-            <button onClick={() => toast("Resume coming soon", { description: "The resume file hasn't been uploaded yet." })} className="inline-flex items-center gap-2 rounded-full border bg-card px-6 py-3 text-sm font-semibold transition-colors hover:border-primary">
+            <a href={resumeAsset.url} download="Vishal_Thakur_Resume.pdf" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border bg-card px-6 py-3 text-sm font-semibold transition-colors hover:border-primary">
               <Download className="h-4 w-4" /> Download Resume
-            </button>
+            </a>
             <a href="#contact" className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-foreground hover:text-primary">
               Contact Me
             </a>
