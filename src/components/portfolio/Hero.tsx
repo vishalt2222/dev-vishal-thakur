@@ -9,7 +9,7 @@ function useTyping(words: string[]) {
   const [text, setText] = useState("");
   const [del, setDel] = useState(false);
   useEffect(() => {
-    const w = words[i % words.length];
+    const w = words[i % words.length] ?? "";
     const t = setTimeout(
       () => {
         if (!del) {

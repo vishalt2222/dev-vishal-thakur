@@ -77,7 +77,7 @@ export function Education() {
 const INTERN_TECH = ["MERN", "MVC", "PDF Processing", "OCR", "Google Gemini AI", "REST APIs", "MongoDB"];
 
 export function Experience({ onOpen }: { onOpen: (p: Project) => void }) {
-  const p = PROJECTS[0];
+  const p = PROJECTS[0]!;
   return (
     <section id="experience" className="bg-surface">
       <div className={wrap}>
