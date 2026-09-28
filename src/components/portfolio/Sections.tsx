@@ -247,12 +247,12 @@ export function Journey() {
 
 export function Contact() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<"name" | "email" | "subject" | "message", string>>>({});
   const [sent, setSent] = useState(false);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    const er: Record<string, string> = {};
+    const er: Partial<Record<"name" | "email" | "subject" | "message", string>> = {};
     if (!form.name.trim()) er.name = "Please enter your name";
     if (!/^\S+@\S+\.\S+$/.test(form.email)) er.email = "Please enter a valid email";
     if (!form.subject.trim()) er.subject = "Please add a subject";
