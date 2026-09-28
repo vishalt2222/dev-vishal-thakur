@@ -3,6 +3,9 @@ import { ArrowRight, Download, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { PROFILE, ROLES, TECH_HIGHLIGHTS } from "./data";
 import { GithubIcon, LinkedinIcon } from "./ui";
+import profileAsset from "@/assets/profile.asset.json";
+
+const PROFILE_PHOTO = profileAsset.url;
 
 function useTyping(words: string[]) {
   const [i, setI] = useState(0);
