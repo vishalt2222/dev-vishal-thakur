@@ -266,16 +266,30 @@ export function Contact() {
     }
     setSending(true);
     try {
-      await sendContactMessage({ data: form });
+      const cfg = await getWeb3FormsAccessKey();
+      if (!cfg.configured || !cfg.accessKey) {
+        toast.error("The contact form isn't fully set up yet — please email me directly instead.");
+        return;
+      }
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: cfg.accessKey,
+          name: form.name,
+          email: form.email,
+          subject: `Portfolio contact: ${form.subject}`,
+          message: form.message,
+          from_name: "Portfolio Contact Form",
+        }),
+      });
+      const result = (await res.json()) as { success?: boolean; message?: string };
+      if (!res.ok || !result.success) throw new Error(result.message ?? "Failed to send message");
       setSent(true);
       setForm({ name: "", email: "", subject: "", message: "" });
       toast.success("Message sent! I'll get back to you soon.");
-    } catch (err) {
-      if (err instanceof Error && err.message === "CONTACT_NOT_CONFIGURED") {
-        toast.error("The contact form isn't fully set up yet — please email me directly instead.");
-      } else {
-        toast.error("Couldn't send the message. Please try again.");
-      }
+    } catch {
+      toast.error("Couldn't send the message. Please try again.");
     } finally {
       setSending(false);
     }
