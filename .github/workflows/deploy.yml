@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -28,11 +29,24 @@ jobs:
 
       - name: Build
         run: bun run build
+        env:
+          BASE_URL: /dev-vishal-thakur/
+
+      - name: Determine artifact path
+        id: set-path
+        run: |
+          if [ -d "dist" ]; then
+            echo "dir=dist" >> $GITHUB_OUTPUT
+          elif [ -d "build" ]; then
+            echo "dir=build" >> $GITHUB_OUTPUT
+          else
+            echo "dir=." >> $GITHUB_OUTPUT
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./${{ steps.set-path.outputs.dir }}
 
   deploy:
     environment:
