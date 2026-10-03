@@ -4,6 +4,7 @@ import { Award, Briefcase, GraduationCap, Mail, MapPin, Phone, Star } from "luci
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { BELIEFS, CERTIFICATIONS, EDUCATION, JOURNEY, PROFILE, PROJECTS, SERVICES, SKILL_GROUPS, type Project } from "./data";
+import { sendContactMessage } from "@/lib/contact.functions";
 import { Chip, GithubIcon, LinkedinIcon, Reveal, SectionHeader } from "./ui";
 import { cn } from "@/lib/utils";
 
@@ -249,8 +250,9 @@ export function Contact() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [errors, setErrors] = useState<Partial<Record<"name" | "email" | "subject" | "message", string>>>({});
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const er: Partial<Record<"name" | "email" | "subject" | "message", string>> = {};
     if (!form.name.trim()) er.name = "Please enter your name";
@@ -262,10 +264,21 @@ export function Contact() {
       toast.error("Please fix the highlighted fields");
       return;
     }
-    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`);
-    window.location.href = `mailto:${PROFILE.email}?subject=${encodeURIComponent(form.subject)}&body=${body}`;
-    setSent(true);
-    toast.success("Opening your email app to send the message");
+    setSending(true);
+    try {
+      await sendContactMessage({ data: form });
+      setSent(true);
+      setForm({ name: "", email: "", subject: "", message: "" });
+      toast.success("Message sent! I'll get back to you soon.");
+    } catch (err) {
+      if (err instanceof Error && err.message === "CONTACT_NOT_CONFIGURED") {
+        toast.error("The contact form isn't fully set up yet — please email me directly instead.");
+      } else {
+        toast.error("Couldn't send the message. Please try again.");
+      }
+    } finally {
+      setSending(false);
+    }
   };
 
   const field = "w-full rounded-lg border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary";
@@ -310,8 +323,8 @@ export function Contact() {
                 <textarea rows={5} placeholder="Message" value={form.message} onChange={set("message")} className={cn(field, errors.message && "border-destructive")} />
                 {errors.message && <p className="mt-1 text-xs text-destructive">{errors.message}</p>}
               </div>
-              <button type="submit" className="bg-gradient-accent w-full rounded-full py-3 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5">Send Message</button>
-              {sent && <p className="text-center text-sm text-primary">Thanks! Your email app should open with the message ready to send.</p>}
+              <button type="submit" disabled={sending} className="bg-gradient-accent w-full rounded-full py-3 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5 disabled:opacity-60">{sending ? "Sending…" : "Send Message"}</button>
+              {sent && <p className="text-center text-sm text-primary">Thanks! Your message was sent directly to my inbox.</p>}
             </form>
           </Reveal>
         </div>
