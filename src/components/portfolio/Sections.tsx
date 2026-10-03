@@ -4,6 +4,7 @@ import { Award, Briefcase, GraduationCap, Mail, MapPin, Phone, Star } from "luci
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { BELIEFS, CERTIFICATIONS, EDUCATION, JOURNEY, PROFILE, PROJECTS, SERVICES, SKILL_GROUPS, type Project } from "./data";
+import { sendContactMessage } from "@/lib/contact.functions";
 import { Chip, GithubIcon, LinkedinIcon, Reveal, SectionHeader } from "./ui";
 import { cn } from "@/lib/utils";
 
