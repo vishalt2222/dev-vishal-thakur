@@ -94,7 +94,7 @@ export function Hero() {
           </div>
           <span className="float-slow absolute -left-6 top-10 rounded-xl border bg-card px-3 py-2 font-mono text-xs shadow-elegant">{"</> React"}</span>
           <span className="float-slow absolute -right-4 bottom-12 rounded-xl border bg-card px-3 py-2 font-mono text-xs shadow-elegant [animation-delay:-3s]">AI · ML</span>
-          <span className="float-slow absolute right-2 -top-2 rounded-xl border bg-card px-3 py-2 font-mono text-xs shadow-elegant [animation-delay:-6s]">OCR</span>
+          <span className="float-slow absolute right-2 -top-2 rounded-xl border bg-card px-3 py-2 font-mono text-xs shadow-elegant [animation-delay:-6s]">Python</span>
         </div>
       </div>
     </section>
